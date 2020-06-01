@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePriceTracksTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('price_tracks', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('room_categorie_id')->unsigned();
+            $table->bigInteger('new_price')->default(0);
+            $table->bigInteger('current_price')->default(0);
+            $table->string('reason')->default(0);
+            $table->timestamps();
+
+            $table->foreign('room_categorie_id')
+                  ->references('id')
+                  ->on('room_categories')
+                  ->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('price_tracks');
+    }
+}
